@@ -6,7 +6,7 @@ import heroImg from "./assets/img/hero.jpg";
 import abstractImg from "./assets/img/abstract.jpg";
 import officeImg from "./assets/img/office.jpg";
 
-// ✅ HERO matte background image (your new one)
+// ✅ HERO matte background image (fallback JPG)
 import heroBg from "./assets/img/hero-bg.jpg";
 
 /** -----------------------
@@ -395,15 +395,33 @@ export default function App() {
       <main>
         <section className="relative overflow-hidden">
           {/* ✅ HERO BACKGROUND + MATTE */}
-          <div className="absolute inset-0 -z-15">
-            <img
-              src={heroBg}
-              alt="Auralink background"
-              className="h-full w-full object-cover object-center"
-              loading="eager"
-              fetchpriority="high"
-              decoding="async"
-            />
+          {/* CHANGED: -z-15 -> -z-10 (Tailwind safe) */}
+          <div className="absolute inset-0 -z-10">
+            {/* CHANGED: <img> -> <picture> for WebP + mobile WebP + JPG fallback */}
+            <picture>
+              {/* Mobile first */}
+              <source
+                media="(max-width: 640px)"
+                srcSet={new URL("./assets/img/hero-bg-mobile.webp", import.meta.url).href}
+                type="image/webp"
+              />
+
+              {/* Desktop */}
+              <source
+                srcSet={new URL("./assets/img/hero-bg.webp", import.meta.url).href}
+                type="image/webp"
+              />
+
+              {/* Fallback (keep your jpg) */}
+              <img
+                src={heroBg}
+                alt="Auralink technology background"
+                className="h-full w-full object-cover object-center"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+              />
+            </picture>
 
             {/* ✅ Premium matte (fixes contrast issue) */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-paper" />
@@ -535,9 +553,6 @@ export default function App() {
             </GlassCard>
           </Reveal>
         </section>
-
-        {/* ABOUT */}
-        {/* (Everything below stays the same as your current code) */}
 
         {/* ABOUT */}
         <section id="about" className="mx-auto max-w-6xl px-4 py-14">
