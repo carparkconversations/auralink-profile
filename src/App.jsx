@@ -821,7 +821,7 @@ export default function App() {
                     </a>
 
                     <a
-                      href="mailto:info@auralink.co.zm?subject=Auralink%20Consultation&body=Hi%20Auralink%2C%20I%20want%20to%20book%20a%20consultation."
+                      href="mailto:info@auralinksystems.org?subject=Auralink%20Consultation&body=Hi%20Auralink%2C%20I%20want%20to%20book%20a%20consultation."
                       className="inline-flex items-center justify-center rounded-full border border-line bg-white/70 backdrop-blur px-5 py-3 text-sm font-medium text-ink shadow-soft hover:bg-white/85 transition"
                     >
                       Email Us
@@ -833,7 +833,7 @@ export default function App() {
                       <span className="text-ink font-medium">Phone:</span> +260 973 924 433
                     </div>
                     <div>
-                      <span className="text-ink font-medium">Email:</span> info@auralink.co.zm
+                      <span className="text-ink font-medium">Email:</span> info@auralinksystems.org
                     </div>
                     <div>
                       <span className="text-ink font-medium">Location:</span> Lusaka, Zambia
