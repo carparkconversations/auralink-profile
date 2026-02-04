@@ -1,10 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "./supabaseClient";
 
-// ✅ Local images (make sure these paths match your project)
-import heroImg from "./assets/img/hero.jpg";
-import abstractImg from "./assets/img/abstract.jpg";
-import officeImg from "./assets/img/office.jpg";
+// ✅ Local images (now using WebP)
+import heroImg from "./assets/img/hero.webp";
+import abstractImg from "./assets/img/abstract.webp";
+import officeImg from "./assets/img/office.webp";
+
+// ✅ Mobile WebP versions
+import heroImgMobile from "./assets/img/hero-mobile.webp";
+import abstractImgMobile from "./assets/img/abstract-mobile.webp";
+import officeImgMobile from "./assets/img/office-mobile.webp";
 
 // ✅ HERO matte background image (fallback JPG)
 import heroBg from "./assets/img/hero-bg.jpg";
@@ -125,33 +130,42 @@ function NavLink({ href, children }) {
   );
 }
 
-/** blur-up image (faster perceived load) */
-function SmartImage({ src, alt, className = "", priority = false, width, height }) {
+/** ✅ UPGRADED SmartImage: WebP + Mobile WebP + blur-up */
+function SmartImage({
+  src,
+  mobileSrc,
+  alt,
+  className = "",
+  priority = false,
+  width,
+  height,
+}) {
   const [loaded, setLoaded] = useState(false);
 
   return (
     <div className={cn("relative overflow-hidden", className)}>
-      <div
-        className={cn(
-          "absolute inset-0 bg-gradient-to-r from-black/5 via-black/10 to-black/5",
-          "animate-pulse",
-          loaded ? "opacity-0" : "opacity-100"
+      {!loaded && <div className="absolute inset-0 bg-black/10 animate-pulse" />}
+
+      <picture>
+        {mobileSrc && (
+          <source media="(max-width: 640px)" srcSet={mobileSrc} type="image/webp" />
         )}
-      />
-      <img
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        loading={priority ? "eager" : "lazy"}
-        fetchpriority={priority ? "high" : "auto"}
-        decoding="async"
-        onLoad={() => setLoaded(true)}
-        className={cn(
-          "h-full w-full object-cover transition duration-700",
-          loaded ? "opacity-100 blur-0 scale-100" : "opacity-0 blur-xl scale-[1.03]"
-        )}
-      />
+
+        <img
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          loading={priority ? "eager" : "lazy"}
+          fetchpriority={priority ? "high" : "auto"}
+          decoding="async"
+          onLoad={() => setLoaded(true)}
+          className={cn(
+            "h-full w-full object-cover transition duration-700",
+            loaded ? "opacity-100 blur-0" : "opacity-0 blur-xl"
+          )}
+        />
+      </picture>
     </div>
   );
 }
@@ -338,10 +352,14 @@ export default function App() {
     };
   }, [menuOpen]);
 
+  // ✅ Now includes mobile versions too
   const images = {
     hero: heroImg,
+    heroMobile: heroImgMobile,
     abstract: abstractImg,
+    abstractMobile: abstractImgMobile,
     office: officeImg,
+    officeMobile: officeImgMobile,
   };
 
   return (
@@ -395,24 +413,17 @@ export default function App() {
       <main>
         <section className="relative overflow-hidden">
           {/* ✅ HERO BACKGROUND + MATTE */}
-          {/* CHANGED: -z-15 -> -z-10 (Tailwind safe) */}
           <div className="absolute inset-0 -z-10">
-            {/* CHANGED: <img> -> <picture> for WebP + mobile WebP + JPG fallback */}
             <picture>
-              {/* Mobile first */}
               <source
                 media="(max-width: 640px)"
                 srcSet={new URL("./assets/img/hero-bg-mobile.webp", import.meta.url).href}
                 type="image/webp"
               />
-
-              {/* Desktop */}
               <source
                 srcSet={new URL("./assets/img/hero-bg.webp", import.meta.url).href}
                 type="image/webp"
               />
-
-              {/* Fallback (keep your jpg) */}
               <img
                 src={heroBg}
                 alt="Auralink technology background"
@@ -423,14 +434,11 @@ export default function App() {
               />
             </picture>
 
-            {/* ✅ Premium matte (fixes contrast issue) */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-paper" />
-
-            {/* ✅ Optional: slight blur + contrast for readability */}
             <div className="absolute inset-0 backdrop-blur-[1.5px]" />
           </div>
 
-          {/* ✅ HERO CONTENT forced above background */}
+          {/* ✅ HERO CONTENT */}
           <div className="relative z-10 mx-auto max-w-6xl px-4 pt-14 sm:pt-20 pb-16">
             <div className="grid items-center gap-8 md:grid-cols-2">
               <Reveal>
@@ -492,6 +500,7 @@ export default function App() {
                     <div className="relative h-64 sm:h-72">
                       <SmartImage
                         src={images.hero}
+                        mobileSrc={images.heroMobile}
                         alt="African professional working on a laptop"
                         priority
                         width={1400}
@@ -533,7 +542,6 @@ export default function App() {
           </div>
         </section>
 
-        {/* REST OF YOUR PAGE (UNCHANGED) */}
         {/* TRUST STRIP */}
         <section className="mx-auto max-w-6xl px-4 pb-4">
           <Reveal>
@@ -708,6 +716,7 @@ export default function App() {
                 <div className="relative h-64 sm:h-72">
                   <SmartImage
                     src={images.abstract}
+                    mobileSrc={images.abstractMobile}
                     alt="Technology background"
                     width={1400}
                     height={900}
@@ -732,35 +741,6 @@ export default function App() {
                 </div>
               </GlassCard>
             </Reveal>
-          </div>
-        </section>
-
-        {/* INDUSTRIES */}
-        <section id="industries" className="mx-auto max-w-6xl px-4 py-14">
-          <Reveal>
-            <SectionTitle
-              eyebrow="Industries"
-              title="Who we serve"
-              desc="Organizations that value operational clarity and systems maturity."
-            />
-          </Reveal>
-
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-            {[
-              "Financial Institutions",
-              "Construction & Engineering",
-              "Retail & Multi-Branch SMEs",
-              "Education & Academic Institutions",
-              "Hospitality & Service Businesses",
-              "Professional Services",
-            ].map((x) => (
-              <Reveal key={x}>
-                <GlassCard className="p-6">
-                  <div className="text-xs uppercase tracking-[0.22em] text-muted">Sector</div>
-                  <div className="mt-2 text-lg font-semibold tracking-tight text-ink">{x}</div>
-                </GlassCard>
-              </Reveal>
-            ))}
           </div>
         </section>
 
@@ -799,6 +779,7 @@ export default function App() {
                 <div className="relative min-h-[320px]">
                   <SmartImage
                     src={images.office}
+                    mobileSrc={images.officeMobile}
                     alt="African professionals collaborating"
                     width={1400}
                     height={900}
