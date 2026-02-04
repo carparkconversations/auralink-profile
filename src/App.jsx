@@ -428,7 +428,7 @@ export default function App() {
                   </div>
 
                   <h1 className="mt-5 text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-white drop-shadow-[0_8px_24px_rgba(0,0,0,0.45)]">
-                    Premium systems that make organizations run smoother.
+                    Modern systems designed to improve operational efficiency.
                   </h1>
 
                   <p className="mt-4 text-white/90 leading-relaxed">
