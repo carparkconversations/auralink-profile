@@ -439,11 +439,10 @@ export default function App() {
                     <div className="absolute bottom-4 left-4 right-4">
                       <div className="rounded-3xl bg-white/70 backdrop-blur-xl border border-white/25 p-4 shadow-soft">
                         <div className="text-sm font-medium text-ink">
-                          Designed for everyday operations
+                          Welcome to Auralink Systems
                         </div>
                         <div className="mt-1 text-xs text-muted leading-relaxed">
-                          Ticketing systems, portals, dashboards and workflows — premium delivery
-                          with secure foundations.
+                          We help organizations simplify how work gets done, replacing manual processes with secure,easy-to-use digital systems built for everyday operations.
                         </div>
                       </div>
                     </div>
