@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "./supabaseClient";
 
-// ✅ Local images (now using WebP)
+// ✅ Local images (WebP)
 import heroImg from "./assets/img/hero.webp";
 import abstractImg from "./assets/img/abstract.webp";
 import officeImg from "./assets/img/office.webp";
@@ -60,14 +60,6 @@ function LogoMark() {
         <div className="text-xs text-muted -mt-0.5">Systems Limited</div>
       </div>
     </div>
-  );
-}
-
-function Pill({ children }) {
-  return (
-    <span className="inline-flex items-center rounded-full border border-white/25 bg-white/60 px-3 py-1 text-xs sm:text-sm text-ink shadow-sm backdrop-blur-md">
-      {children}
-    </span>
   );
 }
 
@@ -130,16 +122,8 @@ function NavLink({ href, children }) {
   );
 }
 
-/** ✅ UPGRADED SmartImage: WebP + Mobile WebP + blur-up */
-function SmartImage({
-  src,
-  mobileSrc,
-  alt,
-  className = "",
-  priority = false,
-  width,
-  height,
-}) {
+/** ✅ SmartImage: WebP + Mobile WebP + blur-up */
+function SmartImage({ src, mobileSrc, alt, className = "", priority = false, width, height }) {
   const [loaded, setLoaded] = useState(false);
 
   return (
@@ -259,7 +243,6 @@ function MobileMenu({ open, onClose }) {
             ["About", "#about"],
             ["Services", "#services"],
             ["Solutions", "#solutions"],
-            ["Industries", "#industries"],
             ["Contact", "#contact"],
           ].map(([label, href]) => (
             <a
@@ -352,7 +335,6 @@ export default function App() {
     };
   }, [menuOpen]);
 
-  // ✅ Now includes mobile versions too
   const images = {
     hero: heroImg,
     heroMobile: heroImgMobile,
@@ -385,7 +367,6 @@ export default function App() {
               <NavLink href="#about">About</NavLink>
               <NavLink href="#services">Services</NavLink>
               <NavLink href="#solutions">Solutions</NavLink>
-              <NavLink href="#industries">Industries</NavLink>
               <NavLink href="#contact">Contact</NavLink>
             </nav>
 
@@ -412,7 +393,7 @@ export default function App() {
       {/* HERO */}
       <main>
         <section className="relative overflow-hidden">
-          {/* ✅ HERO BACKGROUND + MATTE */}
+          {/* HERO BACKGROUND + MATTE */}
           <div className="absolute inset-0 -z-10">
             <picture>
               <source
@@ -434,142 +415,84 @@ export default function App() {
               />
             </picture>
 
-            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-paper" />
-            <div className="absolute inset-0 backdrop-blur-[1.5px]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/55 to-paper" />
+            <div className="absolute inset-0 backdrop-blur-[1px]" />
           </div>
 
-          {/* ✅ HERO CONTENT */}
-          <div className="relative z-10 mx-auto max-w-6xl px-4 pt-14 sm:pt-20 pb-16">
-            <div className="grid items-center gap-8 md:grid-cols-2">
-              <Reveal>
-                <div>
-                  <div className="flex flex-wrap gap-2">
-                    <Pill>Digital Transformation</Pill>
-                    <Pill>Internal Systems</Pill>
-                    <Pill>Security-First</Pill>
-                  </div>
-
-                  <div className="mt-4 text-xs uppercase tracking-[0.3em] text-white/80">
-                    Enterprise-grade digital systems
-                  </div>
-
-                  <h1 className="mt-5 text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-white drop-shadow-[0_8px_24px_rgba(0,0,0,0.45)]">
-                    Modern systems designed to improve operational efficiency.
-                  </h1>
-
-                  <p className="mt-4 text-white/90 leading-relaxed">
-                    Auralink Systems Limited designs and builds secure, scalable platforms that
-                    reduce manual work, improve visibility, and support smarter decision-making
-                    across teams and branches.
-                  </p>
-
-                  <div className="mt-6 flex flex-col sm:flex-row gap-3">
-                    <a
-                      href="#contact"
-                      className="inline-flex items-center justify-center rounded-full bg-ink px-5 py-3 text-sm font-medium text-white shadow-card hover:opacity-95 transition"
-                    >
-                      Book a Consultation
-                    </a>
-                    <a
-                      href="#solutions"
-                      className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/15 backdrop-blur px-5 py-3 text-sm font-medium text-white shadow-soft hover:bg-white/20 transition"
-                    >
-                      View Solutions
-                    </a>
-                  </div>
-
-                  <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                    {[
-                      ["Secure by design", "Role-based access & audit trails"],
-                      ["Fast & reliable", "Optimized performance & premium UX"],
-                      ["Multi-branch ready", "Head office + branch visibility"],
-                      ["Workflow automation", "Trackable approvals & requests"],
-                    ].map(([t, d]) => (
-                      <GlassCard key={t} className="p-4 hover:-translate-y-0.5 transition">
-                        <div className="font-medium text-ink">{t}</div>
-                        <div className="mt-1 text-xs text-muted leading-relaxed">{d}</div>
-                      </GlassCard>
-                    ))}
-                  </div>
-                </div>
-              </Reveal>
-
-              <Reveal>
-                <div>
-                  <GlassCard className="overflow-hidden">
-                    <div className="relative h-64 sm:h-72">
-                      <SmartImage
-                        src={images.hero}
-                        mobileSrc={images.heroMobile}
-                        alt="African professional working on a laptop"
-                        priority
-                        width={1400}
-                        height={900}
-                        className="h-full w-full"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-ink/10 to-transparent" />
-                      <div className="absolute bottom-4 left-4 right-4">
-                        <div className="rounded-3xl bg-white/70 backdrop-blur-xl border border-white/25 p-4 shadow-soft">
-                          <div className="text-sm font-medium text-ink">Designed for everyday operations</div>
-                          <div className="mt-1 text-xs text-muted leading-relaxed">
-                            Ticketing systems, portals, dashboards and workflows — premium delivery with secure foundations.
-                          </div>
+          {/* HERO CONTENT */}
+          <div className="relative z-10 mx-auto max-w-6xl px-4 pt-10 sm:pt-16 pb-10">
+            <div className="grid items-center gap-4 md:gap-8 md:grid-cols-2">
+              {/* IMAGE + TEXT INSIDE IMAGE + RLS/REALTIME/SCALABLE */}
+              <Reveal className="order-1 md:order-2">
+                <GlassCard className="overflow-hidden">
+                  <div className="relative h-60 sm:h-72">
+                    <SmartImage
+                      src={images.hero}
+                      mobileSrc={images.heroMobile}
+                      alt="African professionals collaborating"
+                      priority
+                      width={1400}
+                      height={900}
+                      className="h-full w-full"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-ink/10 to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <div className="rounded-3xl bg-white/70 backdrop-blur-xl border border-white/25 p-4 shadow-soft">
+                        <div className="text-sm font-medium text-ink">
+                          Designed for everyday operations
+                        </div>
+                        <div className="mt-1 text-xs text-muted leading-relaxed">
+                          Ticketing systems, portals, dashboards and workflows — premium delivery
+                          with secure foundations.
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div className="p-5">
-                      <div className="grid grid-cols-3 gap-3">
-                        {[
-                          ["RLS", "Role security"],
-                          ["Real-time", "Live updates"],
-                          ["Scalable", "Grows cleanly"],
-                        ].map(([k, v]) => (
-                          <div
-                            key={k}
-                            className="rounded-3xl border border-white/20 bg-white/35 backdrop-blur-xl p-4"
-                          >
-                            <div className="text-base sm:text-lg font-semibold text-ink">{k}</div>
-                            <div className="text-[11px] sm:text-xs text-muted">{v}</div>
-                          </div>
-                        ))}
-                      </div>
+                  <div className="p-5">
+                    <div className="grid grid-cols-3 gap-3">
+                      {[
+                        ["RLS", "Role security"],
+                        ["Real-time", "Live updates"],
+                        ["Scalable", "Grows cleanly"],
+                      ].map(([k, v]) => (
+                        <div
+                          key={k}
+                          className="rounded-3xl border border-white/20 bg-white/35 backdrop-blur-xl p-4"
+                        >
+                          <div className="text-base sm:text-lg font-semibold text-ink">{k}</div>
+                          <div className="text-[11px] sm:text-xs text-muted">{v}</div>
+                        </div>
+                      ))}
                     </div>
-                  </GlassCard>
+                  </div>
+                </GlassCard>
+
+                {/* ✅ ONLY CTA UNDER HERO (About button removed) */}
+                <div className="mt-4">
+                  <a
+                    href="#contact"
+                    className="inline-flex w-full items-center justify-center rounded-full bg-ink px-5 py-3 text-sm font-medium text-white shadow-card hover:opacity-95 transition"
+                  >
+                    Book a Consultation
+                  </a>
                 </div>
               </Reveal>
+
+              {/* ✅ HERO TEXT PANEL REMOVED (to match your new structure) */}
+              <div className="hidden md:block order-2 md:order-1" />
             </div>
           </div>
         </section>
 
-        {/* TRUST STRIP */}
-        <section className="mx-auto max-w-6xl px-4 pb-4">
-          <Reveal>
-            <GlassCard className="p-4 sm:p-5">
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-muted">
-                <span className="font-medium text-ink">Delivery standards:</span>
-                <span>Security-first access</span>
-                <span className="hidden sm:inline">•</span>
-                <span>Audit-friendly logs</span>
-                <span className="hidden sm:inline">•</span>
-                <span>Clean premium UX</span>
-                <span className="hidden sm:inline">•</span>
-                <span>Mobile + desktop ready</span>
-                <span className="hidden sm:inline">•</span>
-                <span>Scalable architecture</span>
-              </div>
-            </GlassCard>
-          </Reveal>
-        </section>
-
-        {/* ABOUT */}
+        {/* ABOUT (comes immediately after CTA) */}
         <section id="about" className="mx-auto max-w-6xl px-4 py-14">
           <div className="grid gap-8 md:grid-cols-2 items-start">
             <Reveal>
               <SectionTitle
                 eyebrow="About"
                 title="Built for organizations that want operational clarity."
-                desc="We focus on practical systems that reduce friction in daily work — turning scattered processes into clean, trackable workflows."
+                desc="We focus on practical systems that reduce friction in daily work, turning scattered processes into clean, trackable workflows."
               />
             </Reveal>
 
@@ -580,7 +503,8 @@ export default function App() {
                   We don’t just build software, we improve how work gets done.
                 </div>
                 <p className="mt-3 text-muted leading-relaxed">
-                  Our solutions are designed for real teams, real constraints, and real operational needs — with security and scalability as defaults.
+                  Our solutions are designed for real teams, real constraints, and real operational
+                  needs, with security and scalability as defaults.
                 </p>
               </GlassCard>
             </Reveal>
@@ -596,7 +520,10 @@ export default function App() {
                 "Mission",
                 "To design and deliver secure digital solutions that streamline operations, improve accountability, and unlock data-driven decision-making.",
               ],
-              ["Values", "Clarity • Security • Craft • Alignment — business goals first, technology as the enabler."],
+              [
+                "Values",
+                "Clarity • Security • Craft • Alignment • business goals first, technology as the enabler.",
+              ],
             ].map(([t, d]) => (
               <Reveal key={t}>
                 <GlassCard className="p-6">
@@ -729,14 +656,23 @@ export default function App() {
                     Modern architecture. Clean delivery.
                   </div>
                   <p className="mt-2 text-muted leading-relaxed">
-                    Clear roles, secure access, and scalable data structures — so your platform grows with your organization.
+                    Clear roles, secure access, and scalable data structures, so your platform grows
+                    with your organization.
                   </p>
 
                   <div className="mt-4 flex flex-wrap gap-2">
-                    <Pill>Role-Based Access</Pill>
-                    <Pill>Audit Trails</Pill>
-                    <Pill>Multi-Branch</Pill>
-                    <Pill>Real-time</Pill>
+                    <span className="inline-flex items-center rounded-full border border-line bg-white/70 px-3 py-1 text-xs text-ink shadow-sm">
+                      Role-Based Access
+                    </span>
+                    <span className="inline-flex items-center rounded-full border border-line bg-white/70 px-3 py-1 text-xs text-ink shadow-sm">
+                      Audit Trails
+                    </span>
+                    <span className="inline-flex items-center rounded-full border border-line bg-white/70 px-3 py-1 text-xs text-ink shadow-sm">
+                      Multi-Branch
+                    </span>
+                    <span className="inline-flex items-center rounded-full border border-line bg-white/70 px-3 py-1 text-xs text-ink shadow-sm">
+                      Real-time
+                    </span>
                   </div>
                 </div>
               </GlassCard>
@@ -755,7 +691,8 @@ export default function App() {
                     Premium delivery. Practical outcomes. Secure foundations.
                   </div>
                   <p className="mt-3 text-muted leading-relaxed">
-                    Systems that match real workflows, run fast, and scale cleanly — with accountability built-in.
+                    Systems that match real workflows, run fast, and scale cleanly — with
+                    accountability built-in.
                   </p>
 
                   <div className="mt-6 grid gap-3">
@@ -803,7 +740,8 @@ export default function App() {
                     Ready to modernize your operations?
                   </div>
                   <p className="mt-3 text-muted leading-relaxed">
-                    Book a consultation and we’ll map your workflow, define roles, and recommend the best solution path.
+                    Book a consultation and we’ll map your workflow, define roles, and recommend the
+                    best solution path.
                   </p>
 
                   <div className="mt-5 flex flex-col sm:flex-row gap-3">
