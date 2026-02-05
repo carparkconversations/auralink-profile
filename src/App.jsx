@@ -485,7 +485,7 @@ export default function App() {
         </section>
 
         {/* ABOUT (comes immediately after CTA) */}
-        <section id="about" className="mx-auto max-w-6xl px-4 py-10">
+        <section id="about" className="mx-auto max-w-6xl px-4 py-8">
           <div className="grid gap-8 md:grid-cols-2 items-start">
             <Reveal>
               <SectionTitle
